@@ -96,18 +96,15 @@ We refer the reader to [our paper][Hybrid_Paper] for more details.
 <sup>3</sup> - Rating from 1 to 5 with 5 being zero contamination by other sources.
 
 ## Requirements
-
 - `Python` >= `3.7`
   - See `requirements_minimal.txt` for requirements for separation only.
   - See `requirements.txt`/`environment-[cpu|cuda].yml` for training purposes.
 
 ### For Windows users
-
 Everytime you see `python3`, replace it with `sys.executable`/`python.exe`. You should always run commands from the
 Anaconda console.
 
 ### For musicians
-
 If you just want to use Demucs to separate tracks, you can install it with
 
 ```bash
@@ -118,10 +115,8 @@ python3 -m pip install -U demucs
 python3 -m pip install -U git+https://github.com/facebookresearch/demucs#egg=demucs
 ```
 
-Advanced OS support are provided on the following page, **you must read the page for your OS before posting an issues**:
-- [**Windows**](docs/windows.md).
-- [**Mac OS X**](docs/mac.md).
-- [**Linux**](docs/linux.md).
+Advanced OS support are provided on the following page, **you must read the page for your OS before posting an issues**.
+- ([**Windows**](docs/windows.md) / [**Mac OS X**](docs/mac.md) / [**Linux**](docs/linux.md))
 
 ### For machine learning scientists
 
