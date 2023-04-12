@@ -204,14 +204,17 @@ demucs --two-stems=vocals "File.mp3"
 
 If you have a GPU, but you run out of memory, please use `--segment SEGMENT` to reduce length of each split. `SEGMENT` should be changed to a integer. Personally recommend not less than 10 (the bigger the number is, the more memory is required, but quality may increase). Create an environment variable `PYTORCH_NO_CUDA_MEMORY_CACHING=1` is also helpful. If this still cannot help, please add `-d cpu` to the command line. See the section hereafter for more details on the memory requirements for GPU acceleration.
 
-Separated tracks are stored in the `separated/MODEL_NAME/TRACK_NAME` folder. There you will find four stereo wave files sampled at 44 100 Hz: `drums.wav`, `bass.wav`,
-`other.wav`, `vocals.wav` (or `.mp3` if you used the `--mp3` option).
+Separated tracks are stored in the `separated/MODEL_NAME/TRACK_NAME` folder. There you will find four stereo wave (or MP3, if you `--mp3` flag used) files sampled at 44 100 Hz:
+- `drums.wav`
+- `bass.wav`,
+- `other.wav`
+- `vocals.wav` .
 
-All audio formats supported by `torchaudio` can be processed (i.e. WAV, MP3, FLAC, Ogg/Vorbis on Linux/Mac OS X etc.). On Windows, `torchaudio` has limited support, so we rely on `FFmpeg`, which should support pretty much anything.
-Audio is resampled on the fly if necessary.
-The output will be a wave file encoded as int16.
-- You can save as float32 wav files with `--float32`, or 24 bits integer wav with `--int24`.
-- You can pass `--mp3` to save as mp3 instead, and set the bitrate with `--mp3-bitrate` (default is 320 kb/s).
+- All audio formats supported by `torchaudio` can be processed (i.e. WAV, MP3, FLAC, Ogg/Vorbis on Linux/Mac OS X etc.).
+  - On Windows, `torchaudio` has limited support, so we rely on `FFmpeg`, which should support pretty much anything.
+
+- Audio is resampled on the fly if necessary.
+- The output will be a wave file encoded as int16, unless other flag used.
 
 It can happen that the output would need clipping, in particular due to some separation artifacts.
 Demucs will automatically rescale each output stem so as to avoid clipping. This can however break
@@ -232,8 +235,8 @@ The list of pre-trained models:
 
 ## Flags
 
-- `--two-stems=STEM`Separate `STEM` from the rest.
-  - `STEM` is a value into any source in the selected model. (i.e. `vocals`)
+- `--two-stems=STEM_NAME`Separate `STEM_NAME` from the rest.
+  - `STEM_NAME` is a value into any source in the selected model. (i.e. `vocals`)
   - This will mix the files after separating the mix fully, so this won't be faster or use less memory.
 
 - `--shifts=n`
@@ -241,14 +244,23 @@ The list of pre-trained models:
     - This makes prediction `n` times slower.
   - Don't use it unless you have a GPU!
 
-- `--overlap`
-  - Controls the amount of overlap between prediction windows. Default is 0.25 (25%) which is probably fine.
+- `--overlap=n`
+  - Controls the amount (`n`) of overlap between prediction windows. Default is 0.25 (25%) which is probably fine.
   - It can probably be reduced to 0.1 to improve a bit speed.
 
-- `-j`
-  - Specify a number of parallel jobs. Default is `1`.
+- `-j=n`
+  - Specify a number of parallel jobs (`n`). Default is `1`.
   - This will multiply by the same amount the RAM used so be careful!
 
+- `--mp3-bitrate`
+  - Default is `320`. (kb/s)
+
+- `--mp3`
+  - Save stems as MP3 files
+
+- `--float32`/`--int24`
+  - File bit depth.
+    - Obsolete if `--mp3` flag used.
 
 ### Memory requirements for GPU acceleration
 
@@ -258,18 +270,13 @@ If you do not have enough memory on your GPU, simply add `-d cpu` to the command
 
 
 ## Training Demucs
-
 If you want to train (Hybrid) Demucs, please follow the [training doc](docs/training.md).
 
 ## MDX Challenge reproduction
-
 In order to reproduce the results from the Track A and Track B submissions, please check out the [MDX Hybrid Demucs submission][MDX_Submission] repository.
 
-
-
 ## How to cite
-
-```
+```markdown
 @inproceedings{rouard2022hybrid,
   title={Hybrid Transformers for Music Source Separation},
   author={Rouard, Simon and Massa, Francisco and D{\'e}fossez, Alexandre},
