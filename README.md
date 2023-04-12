@@ -109,10 +109,10 @@ If you just want to use Demucs to separate tracks, you can install it with
 
 ```bash
 # Basic installation
-python3 -m pip install -U demucs
+pip install -U demucs
 
 # Bleeding edge versions - directly from this repository
-python3 -m pip install -U git+https://github.com/facebookresearch/demucs#egg=demucs
+pip install -U git+https://github.com/facebookresearch/demucs#egg=demucs
 ```
 
 Advanced OS support are provided on the following page, **you must read the page for your OS before posting an issues**.
@@ -122,17 +122,15 @@ Advanced OS support are provided on the following page, **you must read the page
 
 If you have anaconda installed, you can run from the root of this repository. This will create a `demucs` environment with all the dependencies installed:
 ```bash
-conda env update -f environment-cpu.yml    # if you don't have GPUs
-conda env update -f environment-cuda.yml   # if you have GPUs
+conda env update -f environment-cpu.yml    # If you don't have GPUs
+conda env update -f environment-cuda.yml   # If you have GPUs
 conda activate demucs
 pip install -e .
 ```
 
 You will also need to install [soundtouch](https://www.surina.net/soundtouch/soundstretch.html) for pitch/tempo augmentation:
-- Linux
-  - `sudo apt-get install soundstretch`
-- Mac OS X
-  - `brew install sound-touch`
+- Linux: `sudo apt-get install soundstretch`
+- Mac OS X: `brew install sound-touch`
 
 ## Running Remotely
 
