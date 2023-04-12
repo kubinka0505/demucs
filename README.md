@@ -7,40 +7,18 @@ This is the 4th release of Demucs (v4), featuring Hybrid Transformer based sourc
 If you are experiencing issues and want the old Demucs back, please fill an issue, and then you can get back to the v3 with
 `git checkout v3`. You can also go [Demucs v2][Demucs_v2].
 
-
-Demucs is a state-of-the-art music source separation model, currently capable of separating
-drums, bass, and vocals from the rest of the accompaniment.
-Demucs is based on a U-Net convolutional architecture inspired by [Wave-U-Net][Wave_U_Net].
-The v4 version features [Hybrid Transformer Demucs][htdemucs], a hybrid spectrogram/waveform separation model using Transformers.
-It is based on [Hybrid Demucs][Hybrid_Paper] (also provided in this repository) with the innermost layers are
-replaced by a cross-domain Transformer Encoder. This Transformer uses self-attention within each domain,
-and cross-attention across domains.
-The model achieves a SDR of 9.00 dB on the MUSDB HQ test set. Moreover, when using sparse attention
-kernels to extend its receptive field and per source fine-tuning, we achieve state-of-the-art 9.20 dB of SDR.
+Demucs is a state-of-the-art music source separation model, currently capable of separating drums, bass, vocals and other sounds from the rest of the accompaniment. It's based on a U-Net convolutional architecture inspired by [Wave-U-Net][Wave_U_Net].
+The v4 version features [Hybrid Transformer Demucs][htdemucs], a hybrid spectrogram/waveform separation model using Transformers. It is based on [Hybrid Demucs][Hybrid_Paper] (also provided in this repository) with the innermost layers are replaced by a cross-domain Transformer Encoder. This Transformer uses self-attention within each domain, and cross-attention across domains.
+- The model achieves a SDR of 9.00 dB on the MUSDB HQ test set. Moreover, when using sparse attention kernels to extend its receptive field and per source fine-tuning, we achieve state-of-the-art 9.20 dB of SDR. (The Sparse Hybrid Transformer model decribed in our paper isn't provided as it requires custom CUDA code that isn't ready for release yet.)
 
 Samples are available [on our sample page](https://ai.honu.io/papers/htdemucs/index.html).
 Checkout [our paper][htdemucs] for more information.
-It has been trained on the [MUSDB HQ][MusDB] dataset + an extra training dataset of 800 songs.
-This model separates drums, bass and vocals and other stems for any song.
-
-
-As Hybrid Transformer Demucs is brand new, it is not activated by default, you can activate it in the usual
-commands described hereafter with `-n htdemucs_ft`.
-The single, non fine-tuned model is provided as `-n htdemucs`, and the retrained baseline
-as `-n hdemucs_mmi`. The Sparse Hybrid Transformer model decribed in our paper is not provided as its
-requires custom CUDA code that is not ready for release yet.
-We are also releasing an experimental 6 sources model, that adds a `guitar` and `piano` source.
-Quick testing seems to show okay quality for `guitar`, but a lot of bleeding and artifacts for the `piano` source.
-
 
 <p align="center">
 <img src="demucs.png" alt="Schema representing the structure of Hybrid Transformer Demucs, with a dual U-Net structure, one branch for the temporal domain, and one branch for the spectral domain. There is a cross-domain Transformer between the Encoders and Decoders."
 width="800px"></p>
 
-
-
 ## Important news if you are already using Demucs
-
 See the [release notes](./docs/release.md) for more details.
 
 - 22/02/2023
@@ -119,8 +97,9 @@ We refer the reader to [our paper][Hybrid_Paper] for more details.
 
 ## Requirements
 
-You will need at least Python 3.7. See `requirements_minimal.txt` for requirements for separation only,
-and `environment-[cpu|cuda].yml` (or `requirements.txt`) if you want to train a new model.
+- `Python` >= `3.7`
+  - See `requirements_minimal.txt` for requirements for separation only.
+  - See `requirements.txt`/`environment-[cpu|cuda].yml` for training purposes.
 
 ### For Windows users
 
@@ -268,33 +247,32 @@ If you want to use GPU acceleration, you will need at least 3GB of RAM on your G
 
 If you do not have enough memory on your GPU, simply add `-d cpu` to the command line to use the CPU. With Demucs, processing time should be roughly equal to 1.5 times the duration of the track.
 
+## Other
+- ### Training Demucs
+  - If you want to train (Hybrid) Demucs, please follow the [training doc](docs/training.md).
 
-## Training Demucs
-If you want to train (Hybrid) Demucs, please follow the [training doc](docs/training.md).
+- ## MDX Challenge reproduction
+  - In order to reproduce the results from the Track A and Track B submissions, please check out the [MDX Hybrid Demucs submission][MDX_Submission] repository.
 
-## MDX Challenge reproduction
-In order to reproduce the results from the Track A and Track B submissions, please check out the [MDX Hybrid Demucs submission][MDX_Submission] repository.
+- ## How to cite
+  ```markdown
+  @inproceedings{rouard2022hybrid,
+    title={Hybrid Transformers for Music Source Separation},
+    author={Rouard, Simon and Massa, Francisco and D{\'e}fossez, Alexandre},
+    booktitle={ICASSP 23},
+    year={2023}
+  }
 
-## How to cite
-```markdown
-@inproceedings{rouard2022hybrid,
-  title={Hybrid Transformers for Music Source Separation},
-  author={Rouard, Simon and Massa, Francisco and D{\'e}fossez, Alexandre},
-  booktitle={ICASSP 23},
-  year={2023}
-}
+  @inproceedings{defossez2021hybrid,
+    title={Hybrid Spectrogram and Waveform Source Separation},
+    author={D{\'e}fossez, Alexandre},
+    booktitle={Proceedings of the ISMIR 2021 Workshop on Music Source Separation},
+    year={2021}
+  }
+  ```
 
-@inproceedings{defossez2021hybrid,
-  title={Hybrid Spectrogram and Waveform Source Separation},
-  author={D{\'e}fossez, Alexandre},
-  booktitle={Proceedings of the ISMIR 2021 Workshop on Music Source Separation},
-  year={2021}
-}
-```
-
-## License
-
-Demucs is released under the MIT license as found in the [LICENSE](LICENSE) file.
+- ## License
+  - Demucs is released under the MIT license as found in the [LICENSE](LICENSE) file.
 
 [Hybrid_Paper]: https://arxiv.org/abs/2111.03600
 [Wave_U_Net]: https://github.com/f90/Wave-U-Net
