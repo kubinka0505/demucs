@@ -2,18 +2,17 @@
 
 [![Support Ukraine](https://img.shields.io/badge/Support-Ukraine-FFD500?style=flat&labelColor=005BBB)](https://opensource.fb.com/support-ukraine) ![tests badge](https://github.com/facebookresearch/demucs/workflows/tests/badge.svg) ![linter badge](https://github.com/facebookresearch/demucs/workflows/linter/badge.svg)
 
-
 This is the 4th release of Demucs (v4), featuring Hybrid Transformer based source separation.
-**For the classic Hybrid Demucs (v3):** [Go this commit][demucs_v3].
+**For the classic Hybrid Demucs (v3):** [Go this commit][Demucs_v3].
 If you are experiencing issues and want the old Demucs back, please fill an issue, and then you can get back to the v3 with
-`git checkout v3`. You can also go [Demucs v2][demucs_v2].
+`git checkout v3`. You can also go [Demucs v2][Demucs_v2].
 
 
 Demucs is a state-of-the-art music source separation model, currently capable of separating
 drums, bass, and vocals from the rest of the accompaniment.
-Demucs is based on a U-Net convolutional architecture inspired by [Wave-U-Net][waveunet].
+Demucs is based on a U-Net convolutional architecture inspired by [Wave-U-Net][Wave_U_Net].
 The v4 version features [Hybrid Transformer Demucs][htdemucs], a hybrid spectrogram/waveform separation model using Transformers.
-It is based on [Hybrid Demucs][hybrid_paper] (also provided in this repo) with the innermost layers are
+It is based on [Hybrid Demucs][Hybrid_Paper] (also provided in this repository) with the innermost layers are
 replaced by a cross-domain Transformer Encoder. This Transformer uses self-attention within each domain,
 and cross-attention across domains.
 The model achieves a SDR of 9.00 dB on the MUSDB HQ test set. Moreover, when using sparse attention
@@ -21,7 +20,7 @@ kernels to extend its receptive field and per source fine-tuning, we achieve sta
 
 Samples are available [on our sample page](https://ai.honu.io/papers/htdemucs/index.html).
 Checkout [our paper][htdemucs] for more information.
-It has been trained on the [MUSDB HQ][musdb] dataset + an extra training dataset of 800 songs.
+It has been trained on the [MUSDB HQ][MusDB] dataset + an extra training dataset of 800 songs.
 This model separates drums, bass and vocals and other stems for any song.
 
 
@@ -35,9 +34,7 @@ Quick testing seems to show okay quality for `guitar`, but a lot of bleeding and
 
 
 <p align="center">
-<img src="./demucs.png" alt="Schema representing the structure of Hybrid Transformer Demucs,
-    with a dual U-Net structure, one branch for the temporal domain,
-    and one branch for the spectral domain. There is a cross-domain Transformer between the Encoders and Decoders."
+<img src="demucs.png" alt="Schema representing the structure of Hybrid Transformer Demucs, with a dual U-Net structure, one branch for the temporal domain, and one branch for the spectral domain. There is a cross-domain Transformer between the Encoders and Decoders."
 width="800px"></p>
 
 
@@ -90,30 +87,30 @@ We provide hereafter a summary of the different metrics presented in the paper.
 
 You can also compare:
 - Hybrid Demucs (v3)
-- [KUIELAB-MDX-Net][kuielab]
-- [Spleeter][spleeter]
+- [KUIELAB-MDX-Net][KuieLab]
+- [Spleeter][Spleeter]
 - Open-Unmix
 - Demucs (v1)
-- Conv-Tasnet on one of my favorite songs on my [soundcloud playlist][soundcloud].
+- Conv-Tasnet on one of my favorite songs on my [soundcloud playlist][SoundCloud].
 
 ### Accuracy comparison
-We refer the reader to [our paper][hybrid_paper] for more details.
+We refer the reader to [our paper][Hybrid_Paper] for more details.
 
 | Model | Domain | Extra data | Overall<br>SDR<sup>1</sup> | MOS<br>Quality<sup>2</sup> | MOS<br>Contamination<sup>3</sup> |
 |-|:-:|:-:|:-:|:-:|:-:|
-| [Wave-U-Net][waveunet] | Waveform | ❌ | 3.2 | - | - |
-| [Open-Unmix][openunmix] | Spectrogram | ❌ | 5.3 | - | - |
-| [D3Net][d3net] | Spectrogram | ❌ | 6.0 | - | - |
-| [Conv-Tasnet][demucs_v2] | Waveform | ❌ | 5.7 | - | - |
-| [Demucs (v2)][demucs_v2] | Waveform | ❌ | 6.3 | 2.37 | 2.36 |
-| [ResUNetDecouple+][decouple] | Spectrogram | ❌ | 6.7 | - | - |
-| [KUIELAB-MDX-Net][kuielab] | Hybrid | ❌ | 7.5 | **2.86** | 2.55 |
-| [Band-Spit RNN][bandsplit] | Spectrogram | ❌ | **8.2** | - | - |
+| [Wave-U-Net][Wave_U_Net] | Waveform | ❌ | 3.2 | - | - |
+| [Open-Unmix][OpenUnmix] | Spectrogram | ❌ | 5.3 | - | - |
+| [D3_Net][D3_Net] | Spectrogram | ❌ | 6.0 | - | - |
+| [Conv-Tasnet][Demucs_v2] | Waveform | ❌ | 5.7 | - | - |
+| [Demucs (v2)][Demucs_v2] | Waveform | ❌ | 6.3 | 2.37 | 2.36 |
+| [ResUNetDecouple+][DeCouple] | Spectrogram | ❌ | 6.7 | - | - |
+| [KUIELAB-MDX-Net][KuieLab] | Hybrid | ❌ | 7.5 | **2.86** | 2.55 |
+| [Band-Spit RNN][BandSplit] | Spectrogram | ❌ | **8.2** | - | - |
 | [**Hybrid Demucs (v3)**](demucs3) | Hybrid | ❌ | 7.7 | **2.83** | **3.04** |
 | [MMDenseLSTM][mmdenselstm] | Spectrogram | 804 songs | 6.0 | - | - |
-| [D3Net][d3net] | Spectrogram | 1500 songs | 6.7 | - | - |
-| [Spleeter][spleeter] | Spectrogram | 25000 songs | 5.9 | - | - |
-| [Band-Spit RNN][bandsplit] | Spectrogram | 1700 mixes | **9.0** | - | - |
+| [D3_Net][D3_Net] | Spectrogram | 1500 songs | 6.7 | - | - |
+| [Spleeter][Spleeter] | Spectrogram | 25000 songs | 5.9 | - | - |
+| [Band-Spit RNN][BandSplit] | Spectrogram | 1700 mixes | **9.0** | - | - |
 | [**HT Demucs f.t. (v4)**](demucs4) | Hybrid | 800 songs | **9.0** | - | - |
 
 <sup>1</sup> - Mean of the SDR for each of the 4 sources.<br>
@@ -127,7 +124,7 @@ and `environment-[cpu|cuda].yml` (or `requirements.txt`) if you want to train a 
 
 ### For Windows users
 
-Everytime you see `python3`, replace it with `python.exe`. You should always run commands from the
+Everytime you see `python3`, replace it with `sys.executable`/`python.exe`. You should always run commands from the
 Anaconda console.
 
 ### For musicians
@@ -135,18 +132,17 @@ Anaconda console.
 If you just want to use Demucs to separate tracks, you can install it with
 
 ```bash
+# Basic installation
 python3 -m pip install -U demucs
-```
 
-For bleeding edge versions, you can install directly from this repo using
-```bash
+# Bleeding edge versions - directly from this repository
 python3 -m pip install -U git+https://github.com/facebookresearch/demucs#egg=demucs
 ```
 
 Advanced OS support are provided on the following page, **you must read the page for your OS before posting an issues**:
-- **If you are using Windows:** [Windows support](docs/windows.md).
-- **If you are using MAC OS X:** [Mac OS X support](docs/mac.md).
-- **If you are using Linux:** [Linux support](docs/linux.md).
+- [**Windows**](docs/windows.md).
+- [**Mac OS X**](docs/mac.md).
+- [**Linux**](docs/linux.md).
 
 ### For machine learning scientists
 
@@ -229,8 +225,8 @@ The list of pre-trained models:
 | **`htdemucs_ft`** | Fine-tuned version of `htdemucs`<br>Separation will take 4 times more than `htdemucs` at cost of better quality.<br>Same training set as `htdemucs`. | 
 | `htdemucs_6s` | 6 sources version of `htdemucs`, with `piano` and `guitar` being added as sources.<br>Note that the `piano` source is not working great at the moment. | 
 | **`hdemucs_mmi`** | Hybrid Demucs v3<br>Retrained on MusDB + 800 songs. |
-| `mdx` | Trained only on MusDB HQ<br>Winning model on track A at the [MDX][mdx] challenge. |
-|  **`mdx_extra`** | Trained with extra training data (**including MusDB test set**)<br>Ranked 2nd on the track B of the [MDX][mdx] challenge.
+| `mdx` | Trained only on MusDB HQ<br>Winning model on track A at the [MDX][MDX] challenge. |
+|  **`mdx_extra`** | Trained with extra training data (**including MusDB test set**)<br>Ranked 2nd on the track B of the [MDX][MDX] challenge.
 | `mdx_q`<br>`mdx_extra_q` | Quantized version of the previous models.<br>Smaller download and storage at cost of worse quality.
 - `SIG`: where `SIG` is a single model from the [model zoo](docs/training.md#model-zoo).
 
@@ -267,7 +263,7 @@ If you want to train (Hybrid) Demucs, please follow the [training doc](docs/trai
 
 ## MDX Challenge reproduction
 
-In order to reproduce the results from the Track A and Track B submissions, please check out the [MDX Hybrid Demucs submission][mdx_submission] repo.
+In order to reproduce the results from the Track A and Track B submissions, please check out the [MDX Hybrid Demucs submission][MDX_Submission] repository.
 
 
 
@@ -293,19 +289,19 @@ In order to reproduce the results from the Track A and Track B submissions, plea
 
 Demucs is released under the MIT license as found in the [LICENSE](LICENSE) file.
 
-[hybrid_paper]: https://arxiv.org/abs/2111.03600
-[waveunet]: https://github.com/f90/Wave-U-Net
-[musdb]: https://sigsep.github.io/datasets/musdb.html
-[openunmix]: https://github.com/sigsep/open-unmix-pytorch
+[Hybrid_Paper]: https://arxiv.org/abs/2111.03600
+[Wave_U_Net]: https://github.com/f90/Wave-U-Net
+[MusDB]: https://sigsep.github.io/datasets/musdb.html
+[OpenUnmix]: https://github.com/sigsep/open-unmix-pytorch
 [mmdenselstm]: https://arxiv.org/abs/1805.02410
-[demucs_v2]: https://github.com/facebookresearch/demucs/tree/v2
-[demucs_v3]: https://github.com/facebookresearch/demucs/tree/v3
-[spleeter]: https://github.com/deezer/spleeter
-[soundcloud]: https://soundcloud.com/honualx/sets/source-separation-in-the-waveform-domain
-[d3net]: https://arxiv.org/abs/2010.01733
-[mdx]: https://www.aicrowd.com/challenges/music-demixing-challenge-ismir-2021
-[kuielab]: https://github.com/kuielab/mdx-net-submission
-[decouple]: https://arxiv.org/abs/2109.05418
-[mdx_submission]: https://github.com/adefossez/mdx21_demucs
-[bandsplit]: https://arxiv.org/abs/2209.15174
+[Demucs_v2]: https://github.com/facebookresearch/demucs/tree/v2
+[Demucs_v3]: https://github.com/facebookresearch/demucs/tree/v3
+[Spleeter]: https://github.com/deezer/spleeter
+[SoundCloud]: https://soundcloud.com/honualx/sets/source-separation-in-the-waveform-domain
+[D3_Net]: https://arxiv.org/abs/2010.01733
+[MDX]: https://www.aicrowd.com/challenges/music-demixing-challenge-ismir-2021
+[KuieLab]: https://github.com/kuielab/mdx-net-submission
+[DeCouple]: https://arxiv.org/abs/2109.05418
+[MDX_Submission]: https://github.com/adefossez/mdx21_demucs
+[BandSplit]: https://arxiv.org/abs/2209.15174
 [htdemucs]: https://arxiv.org/abs/2211.08553
