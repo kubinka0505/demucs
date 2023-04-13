@@ -14,7 +14,7 @@ The v4 version features [Hybrid Transformer Demucs][htdemucs], a hybrid spectrog
 Samples are available [on our sample page](https://ai.honu.io/papers/htdemucs/index.html).
 Checkout [our paper][htdemucs] for more information.
 
-<p align="center"><img src="demucs.png" alt="Schema representing the structure of Hybrid Transformer Demucs, with a dual U-Net structure, one branch for the temporal domain, and one branch for the spectral domain. There is a cross-domain Transformer between the Encoders and Decoders." width="87.5%" style="border-radius: 12.5%"></p>
+<p align="center"><img src="demucs.png" alt="Schema representing the structure of Hybrid Transformer Demucs, with a dual U-Net structure, one branch for the temporal domain, and one branch for the spectral domain. There is a cross-domain Transformer between the Encoders and Decoders." width="87.5%" style="12px"></p>
 
 ## Important news if you are already using Demucs
 See the [release notes](./docs/release.md) for more details.
